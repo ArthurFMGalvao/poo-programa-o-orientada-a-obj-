@@ -1,0 +1,57 @@
+abstract class Item{
+    protected nome: string;
+    protected descricao: string;
+
+    constructor(n: string, desc: string){
+        this.nome = n
+        this.descricao = desc
+    }
+
+    abstract aplicarBeneficios(personagem: Personagem);
+
+    abstract removerBeneficios(personagem: Personagem)
+}
+
+class ItemInventário{
+    private quantidade: number;
+    private item: Item;
+
+    constructor(qtd: number, item: Item){
+        this.quantidade = qtd
+        this.item = item
+    }
+}
+
+class Arma extends Item{
+    aplicarBeneficios(personagem: Personagem) {
+
+    }
+
+    removerBeneficios(personagem: Personagem) {
+        
+    }
+}
+
+class Inventario{
+    private ItemInventário: ItemInventário[] = []
+    private quantidadeMáximadeItens: number;
+}
+
+class Personagem {
+    nome: string;
+    hp: number;
+    mp: number;
+    forca: number;
+    defesa: number;
+    inventario: Inventario;
+    arma: Arma
+}
+
+class ItemMenu{
+    private opcao: string;
+    private textoDaOpcao: string;
+}
+
+class Menu{
+    private itemMenu: ItemMenu[] = []
+}
