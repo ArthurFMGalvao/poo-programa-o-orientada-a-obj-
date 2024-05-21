@@ -1,0 +1,16 @@
+class Setup {
+    static resolucao: 'HD' | 'FullHD' | '2k' | '4k';
+    static dificuldade: 'Fácil' | 'Normal' | 'Difícil';
+    static rayracing: boolean;
+
+
+    constructor(resolucao: 'HD' | 'FullHD' | '2k' | '4k', dificuldade: 'Fácil' | 'Normal' | 'Difícil', raytracing: boolean) {
+        Setup.resolucao = resolucao;
+        Setup.dificuldade = dificuldade;
+        Setup.rayracing = raytracing;
+    }
+
+    static listarInformacoes() {
+        return `Resolução: ${this.resolucao}, Dificuldade: ${this.dificuldade}, Raytracing: ${this.rayracing}`;
+    }
+}
