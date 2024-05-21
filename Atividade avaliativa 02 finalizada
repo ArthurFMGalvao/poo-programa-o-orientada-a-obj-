@@ -1,0 +1,176 @@
+abstract class Item {
+    protected nome: string;
+    protected descricao: string;
+
+    constructor(n: string, desc: string) {
+        this.nome = n;
+        this.descricao = desc;
+    }
+
+    abstract aplicarBeneficios(personagem: Personagem);
+
+    abstract removerBeneficios(personagem: Personagem);
+}
+
+class ItemInventario {
+    private quantidade: number;
+    private item: Item;
+
+    constructor(qtd: number, item: Item) {
+        this.quantidade = qtd;
+        this.item = item;
+    }
+
+    getQuantidade() {
+        return this.quantidade;
+    }
+
+    getItem() {
+        return this.item;
+    }
+}
+
+class Arma extends Item {
+    aplicarBeneficios(personagem: Personagem) {
+        personagem.forca += 10;
+        personagem.defesa += 5;
+    }
+
+    removerBeneficios(personagem: Personagem) {
+        personagem.forca -= 10;
+        personagem.defesa -= 5;
+    }
+}
+
+class Poção extends Item {
+    aplicarBeneficios(personagem: Personagem) {
+        personagem.hp += personagem.hp * 0.5;
+        personagem.mp += personagem.mp * 0.2;
+    }
+
+    removerBeneficios(personagem: Personagem) {
+        // Não faz nada
+    }
+}
+
+class Inventario {
+    private itens: ItemInventario[] = [];
+    private quantidadeMaximaItens: number;
+
+    constructor(quantidadeMaximaItens: number) {
+        this.quantidadeMaximaItens = quantidadeMaximaItens;
+    }
+
+    getItens() {
+        return this.itens;
+    }
+
+    adicionarItem(item: Item, quantidade: number) {
+        if (this.itens.length < this.quantidadeMaximaItens) {
+            this.itens.push(new ItemInventario(quantidade, item));
+        } else {
+            console.log("Inventário cheio. Não é possível adicionar mais itens.");
+        }
+    }
+}
+
+class Personagem {
+    nome: string;
+    hp: number;
+    mp: number;
+    forca: number;
+    defesa: number;
+    inventario: Inventario;
+    arma: Arma;
+
+    abrirInventario() {
+        let totalItens = 0;
+        this.inventario.getItens().forEach((itemInventario, index) => {
+            console.log(`${index + 1} - ${itemInventario.getItem().nome} (${itemInventario.getQuantidade()})`);
+            totalItens += itemInventario.getQuantidade();
+        });
+        console.log(`Total: ${totalItens}/${this.inventario.quantidadeMaximaItens}`);
+    }
+
+    usarItem(item: Item) {
+        if (item instanceof Arma) {
+            this.arma = item;
+            item.aplicarBeneficios(this);
+        } else if (item instanceof Poção) {
+            item.aplicarBeneficios(this);
+        }
+    }
+    
+    desequiparArma() {
+        if (this.arma) {
+            this.arma.removerBeneficios(this);
+            this.arma = null;
+        }
+    }
+    
+    imprimirInfo() {
+        console.log(`Nome: ${this.nome}`);
+        console.log(`HP: ${this.hp}`);
+        console.log(`MP: ${this.mp}`);
+        console.log(`Força: ${this.forca}`);
+        console.log(`Defesa: ${this.defesa}`);
+        console.log(`Arma: ${this.arma ? this.arma.nome : "Nenhuma"}`);
+    }   
+}
+
+class ItemMenu {
+    private opcao: string;
+    private textoOpcao: string;
+}
+
+class Menu {
+    private itensMenu: ItemMenu[] = [];
+
+    imprimirMenu() {
+        console.log("1. Equipar Arma");
+        console.log("2. Tomar Poção");
+        console.log("3. Adicionar Arma ao Inventário");
+        console.log("4. Adicionar Poção ao Inventário");
+        console.log("5. Imprimir Info");
+        console.log("6. Desequipar Arma");
+        console.log("0. Sair");
+
+        let opcao = prompt("Escolha uma opção:");
+        return opcao;
+    }
+}
+
+// Código principal
+let menu = new Menu();
+let personagem = new Personagem(/* inicialização do personagem */);
+
+while (true) {
+    let opcao = menu.imprimirMenu();
+
+    switch (opcao) {
+        case "1":
+            // Equipar arma
+            break;
+        case "2":
+            // Tomar poção
+            break;
+        case "3":
+            // Adicionar arma ao inventário
+            break;
+        case "4":
+            // Adicionar poção ao inventário
+            break;
+        case "5":
+            personagem.imprimirInfo();
+            break;
+        case "6":
+            personagem.desequiparArma();
+            break;
+        case "0":
+            console.log("Saindo da aplicação...");
+            break;
+        default:
+            console.log("Opção inválida. Tente novamente.");
+            break;
+    }
+}
