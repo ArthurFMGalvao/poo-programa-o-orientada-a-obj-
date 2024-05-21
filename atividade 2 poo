@@ -1,0 +1,43 @@
+class Monstro {
+    nome: string;
+    forca: number;
+    defesa: number;
+    raridade: number;
+
+    constructor(nome: string, forca: number, defesa: number, raridade: number) {
+        this.nome = nome;
+        this.forca = forca;
+        this.defesa = defesa;
+        this.raridade = raridade;
+
+        // Se o monstro não existir na Database, adicione-o
+        if (!MonstroDatabase.listaMonstros.find(monstro => monstro.nome === this.nome)) {
+            MonstroDatabase.listaMonstros.push(this);
+        }
+    }
+}
+
+class MonstroDatabase {
+    static listaMonstros: Monstro[] = [];
+
+    static exibirDatabase(): void {
+        this.listaMonstros.forEach(monstro => console.log(monstro.nome));
+    }
+
+    static getMonstro(nome: string): { nome: string, raridade: number } | undefined {
+        const monstro = this.listaMonstros.find(m => m.nome === nome);
+        return monstro ? { nome: monstro.nome, raridade: monstro.raridade } : undefined;
+    }
+
+    // Novo método para exibir os monstros mais raros
+    static exibirMonstrosRaros(): void {
+        const monstrosRaros = this.listaMonstros.filter(m => m.raridade > 8);
+        monstrosRaros.forEach(monstro => console.log(`Monstro raro: ${monstro.nome}, Raridade: ${monstro.raridade}`));
+    }
+
+    // Novo método para exibir os monstros mais fortes
+    static exibirMonstrosFortes(): void {
+        const monstrosFortes = this.listaMonstros.filter(m => m.forca > 8);
+        monstrosFortes.forEach(monstro => console.log(`Monstro forte: ${monstro.nome}, Força: ${monstro.forca}`));
+    }
+}
