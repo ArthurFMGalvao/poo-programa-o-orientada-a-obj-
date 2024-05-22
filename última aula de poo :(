@@ -1,0 +1,35 @@
+class Rodas {
+    constructor(private tipo: string, private quantidade: number) {}
+}
+
+class Motor {
+    constructor(private modelo: string, private potencia: number) {}
+}
+
+class Banco {
+    constructor(private material: string, private quantidade: number) {}
+}
+
+class Volante {
+    constructor(private material: string, private diametro: number) {}
+}
+
+class Carro {
+    constructor(
+        private rodas: Rodas,
+        private motor: Motor,
+        private bancos: Banco,
+        private volante: Volante
+    ) {}
+}
+
+// Criação de 5 carros
+let carros: Carro[] = [];
+for (let i = 0; i < 5; i++) {
+    let rodas = new Rodas('Esportivas', 4);
+    let motor = new Motor('V8', 300);
+    let bancos = new Banco('Couro', 5);
+    let volante = new Volante('Couro', 30);
+    let carro = new Carro(rodas, motor, bancos, volante);
+    carros.push(carro);
+}
